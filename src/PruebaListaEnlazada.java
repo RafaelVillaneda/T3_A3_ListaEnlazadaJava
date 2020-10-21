@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.Scanner;
 
 class Nodo{
 	private int dato;
@@ -77,7 +78,16 @@ class ListaEnlazada{
 	}
 	//3-> Eliminar Elemento
 	public void eliminarElemntoInicial() {
-		
+		if(verificarVacia()) {
+			System.out.println("No se puede eliminar lista Vacia");
+		}else if(nodoInicio==nodoFin) {
+			nodoInicio=nodoFin=null;
+		}else {
+			Nodo nodoAuxiliar=nodoInicio;
+			System.out.println("Se elimino el dato: "+nodoAuxiliar.getDato());
+			nodoInicio=nodoInicio.getNodoSiguiente();
+			nodoAuxiliar=null;
+		}
 	}
 	public void eliminarElemntoFinal() {
 		
@@ -94,8 +104,9 @@ class ListaEnlazada{
 	//5-> Buscar elemento
 	
 	//6-> Vaciar
-	
-	//-> 
+	public void vaciarLista() {
+		this.nodoInicio=this.nodoFin=null;
+	}
 }
 
 
@@ -103,12 +114,81 @@ public class PruebaListaEnlazada {
 
 	public static void main(String[] args) {
 		LinkedList<Integer> lc= new LinkedList<Integer>();
+		Scanner entrada=new Scanner(System.in);
+		int op=0;
 		ListaEnlazada lista=new ListaEnlazada();
-		lista.agregarElementoIncio(7);
-		lista.agregarElementoIncio(8);
-		lista.agregarElementoIncio(9);
-		lista.agregarElementoFinal(10);
-		lista.mostrarElementos();
+		do {
+		System.out.println("Elige una opcion:");
+		System.out.println("1- Verificar si la lista esta vacia");
+		System.out.println("2- Insertar elemento");
+		System.out.println("3- Eliminar elemento");
+		System.out.println("4- Mostrar elementos");
+		System.out.println("5- Vaciar lista");
+		System.out.println("6- Salir ");
+		op=entrada.nextInt();
+		switch (op) {
+		case 1:
+			System.out.println(lista.verificarVacia() ?"La lista esta vacia":"La lista no esta vacia");
+			break;
+		case 2:
+			int dato=0;
+			String op2="";
+			do {
+				entrada.nextLine();
+				System.out.println("A) Insertar al inicio de la lista");
+				System.out.println("B) Insertar al Final de la lista");
+				op2=entrada.nextLine();
+				switch(op2) {
+				case "A":
+					System.out.print("Ingresa el dato: ");
+					dato=entrada.nextInt(); System.out.println();
+					lista.agregarElementoIncio(dato);
+					break;
+				case "B":
+					System.out.print("Ingresa el dato: ");
+					dato=entrada.nextInt(); System.out.println();
+					lista.agregarElementoFinal(dato);
+					break;
+					default:
+						System.out.println("Elige una opcion disponible");
+						break;
+				}
+			}while(!(op2.equalsIgnoreCase("A") ||op2.equalsIgnoreCase("B")));
+			break;
+		case 3:
+			do {
+				entrada.nextLine();
+				System.out.println("A) Eliminar al inicio de la lista");
+				System.out.println("B) Eliminar al Final de la lista");
+				op2=entrada.nextLine();
+				switch(op2) {
+				case "A":
+					lista.eliminarElemntoInicial();
+					break;
+				case "B":
+					lista.eliminarElemntoInicial();
+					break;
+					default:
+						System.out.println("Elige una opcion disponible");
+						break;
+				}
+			}while(!(op2.equalsIgnoreCase("A") ||op2.equalsIgnoreCase("B")));
+			break;
+		case 4:
+			lista.mostrarElementos();
+			break;
+		case 5:
+			lista.vaciarLista();
+			System.out.println("Se vacio la lista");
+			break;
+		case 6:
+			System.out.println("Saliendo...");
+			break;
+		default:
+			break;
+		}
+		
+		}while(op!=6);
 	}
 
 }
