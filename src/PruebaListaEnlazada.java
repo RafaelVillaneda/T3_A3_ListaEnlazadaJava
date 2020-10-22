@@ -159,6 +159,7 @@ public class PruebaListaEnlazada {
 				entrada.nextLine();
 				System.out.println("A) Insertar al inicio de la lista");
 				System.out.println("B) Insertar al Final de la lista");
+				System.out.println("Regresar al menu principal");
 				op2=entrada.nextLine().toUpperCase();
 				switch(op2) {
 				case "A":
@@ -170,6 +171,9 @@ public class PruebaListaEnlazada {
 					System.out.print("Ingresa el dato: ");
 					dato=entrada.nextInt(); System.out.println();
 					lista.agregarElementoFinal(dato);
+					break;
+				case "C":
+					System.out.println("Regresando al menu principal");
 					break;
 					default:
 						System.out.println("Elige una opcion disponible");
@@ -189,6 +193,9 @@ public class PruebaListaEnlazada {
 					break;
 				case "B":
 					lista.eliminarElemntoInicial();
+					break;
+				case "C":
+					System.out.println("Regresando al menu principal");
 					break;
 					default:
 						System.out.println("Elige una opcion disponible");
