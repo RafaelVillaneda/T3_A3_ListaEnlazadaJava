@@ -90,7 +90,19 @@ class ListaEnlazada{
 		}
 	}
 	public void eliminarElemntoFinal() {
-		
+		if(verificarVacia()) {
+			System.out.println("No se puede eliminar lista Vacia");
+		}else if(nodoInicio==nodoFin) {
+			nodoInicio=nodoFin=null;
+		}else {
+			Nodo nodoAuxiliar=nodoInicio;
+			while(nodoAuxiliar.getNodoSiguiente()!=nodoFin) {
+				nodoAuxiliar=nodoAuxiliar.getNodoSiguiente();
+			}
+			System.out.println("El dato eliminado es: "+nodoAuxiliar.getDato());
+			nodoFin=nodoAuxiliar;
+			nodoFin.setNodoSiguiente(null);
+		}
 	}
 	//4-> Mostrar Elementos
 	public void mostrarElementos() {
@@ -106,6 +118,15 @@ class ListaEnlazada{
 	//6-> Vaciar
 	public void vaciarLista() {
 		this.nodoInicio=this.nodoFin=null;
+	}
+	public void mostrarCantidadElementos() {
+		Nodo nodoActual=nodoInicio;
+		int cantidad=0;
+		while(nodoActual!=null) {
+			cantidad++;
+			nodoActual=nodoActual.getNodoSiguiente();
+		}
+		System.out.println("La lista tiene: "+cantidad);
 	}
 }
 
@@ -124,7 +145,8 @@ public class PruebaListaEnlazada {
 		System.out.println("3- Eliminar elemento");
 		System.out.println("4- Mostrar elementos");
 		System.out.println("5- Vaciar lista");
-		System.out.println("6- Salir ");
+		System.out.println("6- Cantidad de elemntos");
+		System.out.println("7- Salir ");
 		op=entrada.nextInt();
 		switch (op) {
 		case 1:
@@ -137,7 +159,7 @@ public class PruebaListaEnlazada {
 				entrada.nextLine();
 				System.out.println("A) Insertar al inicio de la lista");
 				System.out.println("B) Insertar al Final de la lista");
-				op2=entrada.nextLine();
+				op2=entrada.nextLine().toUpperCase();
 				switch(op2) {
 				case "A":
 					System.out.print("Ingresa el dato: ");
@@ -182,13 +204,17 @@ public class PruebaListaEnlazada {
 			System.out.println("Se vacio la lista");
 			break;
 		case 6:
+			lista.mostrarCantidadElementos();
+			break;
+		case 7:
 			System.out.println("Saliendo...");
 			break;
 		default:
+			System.out.println("Error elige una opcion disponible en el menu");
 			break;
 		}
 		
-		}while(op!=6);
+		}while(op!=7);
 	}
 
 }
