@@ -32,18 +32,18 @@ class Nodo{
  * Operaciones Basicas para una lista Enlazada
  * 1- Creacion
  * 2- Agregar Elemento
- * 		2a Al incio
- * 		2B Al final
+ * 		2a Al incio------
+ * 		2B Al final------
  * 		2c En un lugar Especifico
  * 3- Eliminar Elemento
- * 		3a Al incio
- * 		3B Al final
- * 		3c En un lugar Especifico
- * 4- Mostrar los elemntos (Recorrer)
+ * 		3a Al incio-----
+ * 		3B Al final-----
+ * 		3c Elemento especifico
+ * 4- Mostrar los elemntos (Recorrer)-----
  * 
- * 5- Buscar elemnto
- * 6- Vaciar lista
- * 7- Mostrar Cantidad de elemntos
+ * 5- Buscar elemento
+ * 6- Vaciar lista--------
+ * 7- Mostrar Cantidad de elementos------
  * 
  */
 class ListaEnlazada{
@@ -104,6 +104,32 @@ class ListaEnlazada{
 			nodoFin.setNodoSiguiente(null);
 		}
 	}
+	public int eliminarDatoEspecifico(int dato) {
+		if(verificarVacia()) {// Caso 1 esta vacia
+			return -1;
+		}else if (nodoInicio==nodoFin && nodoInicio.getDato()==dato){//Hay un solo dato
+			Nodo nodoAux=nodoInicio;
+			nodoInicio=nodoFin=null;
+			return nodoAux.getDato();
+		}else {// Caso 3 Hay mas de un nodo y el dato puede estar en alguna pocicion
+			Nodo nodoAnterior,nodoSig;
+			nodoAnterior=nodoInicio;
+			nodoSig=nodoAnterior.getNodoSiguiente();
+			while(nodoSig !=null && nodoSig.getDato()!=dato) {
+				nodoAnterior = nodoAnterior.getNodoSiguiente();
+				nodoSig=nodoSig.getNodoSiguiente();
+			}
+				if(nodoSig!=null && nodoSig.getDato()==dato ) {
+					int n=nodoSig.getDato();
+					nodoAnterior.setNodoSiguiente(nodoSig.getNodoSiguiente());
+					nodoSig=nodoSig.getNodoSiguiente();
+					return n;
+				}else {
+					return -2;
+				}
+		}
+		
+	}
 	//4-> Mostrar Elementos
 	public void mostrarElementos() {
 		Nodo nodoActual=nodoInicio;
@@ -114,7 +140,33 @@ class ListaEnlazada{
 		System.out.println();
 	}
 	//5-> Buscar elemento
-	
+	public boolean buscarElemento(int dato) {
+		if(verificarVacia()) {// Caso 1 esta vacia
+			return false;
+		}else if (nodoInicio==nodoFin && nodoInicio.getDato()==dato){//Hay un solo dato
+			Nodo nodoAux=nodoInicio;
+			nodoInicio=nodoFin=null;
+			return true;
+		}else {// Caso 3 Hay mas de un nodo y el dato puede estar en alguna pocicion
+			Nodo nodoAnterior,nodoSig;
+			nodoAnterior=nodoInicio;
+			nodoSig=nodoAnterior.getNodoSiguiente();
+			while(nodoSig !=null && nodoSig.getDato()!=dato) {
+				if(nodoInicio.getDato()==dato) {
+					return true;
+				}
+				nodoAnterior = nodoAnterior.getNodoSiguiente();
+				nodoSig=nodoSig.getNodoSiguiente();
+			}
+				if(nodoSig!=null && nodoSig.getDato()==dato) {
+					nodoAnterior.setNodoSiguiente(nodoSig.getNodoSiguiente());
+					nodoSig=nodoSig.getNodoSiguiente();
+					return true;
+				}else {
+					return false;
+				}
+		}
+	}
 	//6-> Vaciar
 	public void vaciarLista() {
 		this.nodoInicio=this.nodoFin=null;
@@ -145,8 +197,9 @@ public class PruebaListaEnlazada {
 		System.out.println("3- Eliminar elemento");
 		System.out.println("4- Mostrar elementos");
 		System.out.println("5- Vaciar lista");
-		System.out.println("6- Cantidad de elemntos");
-		System.out.println("7- Salir ");
+		System.out.println("6- Cantidad de elementos");
+		System.out.println("7- Buscar Elemento");
+		System.out.println("8- Salir ");
 		op=entrada.nextInt();
 		switch (op) {
 		case 1:
@@ -159,7 +212,7 @@ public class PruebaListaEnlazada {
 				entrada.nextLine();
 				System.out.println("A) Insertar al inicio de la lista");
 				System.out.println("B) Insertar al Final de la lista");
-				System.out.println("Regresar al menu principal");
+				System.out.println("C) Regresar al menu principal");
 				op2=entrada.nextLine().toUpperCase();
 				switch(op2) {
 				case "A":
@@ -179,14 +232,15 @@ public class PruebaListaEnlazada {
 						System.out.println("Elige una opcion disponible");
 						break;
 				}
-			}while(!(op2.equalsIgnoreCase("A") ||op2.equalsIgnoreCase("B")));
+			}while(!(op2.equalsIgnoreCase("A") ||op2.equalsIgnoreCase("B") ||op2.equalsIgnoreCase("C") ));
 			break;
 		case 3:
 			do {
 				entrada.nextLine();
 				System.out.println("A) Eliminar al inicio de la lista");
 				System.out.println("B) Eliminar al Final de la lista");
-				op2=entrada.nextLine();
+				System.out.println("C) eliminar dato especifico");
+				op2=entrada.nextLine().toUpperCase();
 				switch(op2) {
 				case "A":
 					lista.eliminarElemntoInicial();
@@ -195,13 +249,21 @@ public class PruebaListaEnlazada {
 					lista.eliminarElemntoInicial();
 					break;
 				case "C":
-					System.out.println("Regresando al menu principal");
+					System.out.println("Ingresa el dato");
+					int datoEliminar=entrada.nextInt();
+					int num=lista.eliminarDatoEspecifico(datoEliminar);
+					if(num==-1) {
+						System.out.println("Lista vacia");
+					}else {
+						System.out.println(num==-2?" Dato no encontrado" :"Se elimino el dato "+num+" correctamente");
+					}
+					
 					break;
 					default:
 						System.out.println("Elige una opcion disponible");
 						break;
 				}
-			}while(!(op2.equalsIgnoreCase("A") ||op2.equalsIgnoreCase("B")));
+			}while(!(op2.equalsIgnoreCase("A") ||op2.equalsIgnoreCase("B")||op2.equalsIgnoreCase("C")));
 			break;
 		case 4:
 			lista.mostrarElementos();
@@ -214,6 +276,11 @@ public class PruebaListaEnlazada {
 			lista.mostrarCantidadElementos();
 			break;
 		case 7:
+			System.out.println("Ingresa el dato que deseas buscar");
+			int d=entrada.nextInt();
+			System.out.println(lista.buscarElemento(d)? "El dato: "+d+" si existe en la lista":"El dato no esta en la lista");
+			break;
+		case 8:
 			System.out.println("Saliendo...");
 			break;
 		default:
@@ -221,7 +288,7 @@ public class PruebaListaEnlazada {
 			break;
 		}
 		
-		}while(op!=7);
+		}while(op!=8);
 	}
 
 }
